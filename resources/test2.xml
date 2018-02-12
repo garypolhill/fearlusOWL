@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sched:schedule xmlns:sched="http://www.macaulay.ac.uk/fearlus/fearlus-owl/schedule.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.macaulay.ac.uk/fearlus/fearlus-owl/schedule.xsd schedule.xsd ">
+  <sched:ontology>
+    <sched:implementation>FearlusOntology</sched:implementation>
+    <sched:option sched:arg="-farmHousehold"></sched:option>
+  </sched:ontology>
+  <sched:sequence>
+    <sched:action>
+      <sched:implementation>AddBiophysClimateEconomyLandUses</sched:implementation>
+      <sched:option sched:arg="-lookup-income">/Users/gp1073/java/fearlusOWL/incomeLookup.csv</sched:option>
+      <sched:option sched:arg="-lookup-yield">/Users/gp1073/java/fearlusOWL/yieldLookup.csv</sched:option>
+    </sched:action>
+    <sched:action>
+    	<sched:implementation>AddSubpopulation</sched:implementation>
+    	<sched:option sched:arg="-aspiration">uniform 0 5</sched:option>
+    	<sched:option sched:arg="-incomer">normal   10.0   1.0</sched:option>
+    	<sched:option sched:arg="-offer">uniform 10 10</sched:option>
+    </sched:action>
+    <sched:action>
+    	<sched:implementation>SetUpFearlus</sched:implementation>
+    	<sched:option sched:arg="-BET">5</sched:option>
+    	<sched:option sched:arg="-nXCells">3</sched:option>
+    	<sched:option sched:arg="-nYCells">3</sched:option>
+    	<sched:option sched:arg="-cellArea">1.0</sched:option>
+    </sched:action>
+    <sched:action>
+    	<sched:implementation>UpdateManagerNeighbourhoods</sched:implementation>
+    </sched:action>
+  	<sched:action>
+  		<sched:implementation>RandomChooser</sched:implementation>
+  		<sched:option sched:arg="-subject">Environment</sched:option>
+  		<sched:option sched:arg="-property">hasClimate</sched:option>
+  		<sched:option sched:arg="-choiceSet">Climate</sched:option>
+  		<sched:option sched:arg="-probability">0.125</sched:option>
+  	</sched:action>
+  	<sched:action>
+  		<sched:implementation>RandomChooser</sched:implementation>
+  		<sched:option sched:arg="-subject">Environment</sched:option>
+        <sched:option sched:arg="-property">hasEconomy</sched:option>
+  		<sched:option sched:arg="-choiceSet">Economy</sched:option>
+  		<sched:option sched:arg="-probability">0.125</sched:option>
+  	</sched:action>
+    <sched:action>
+    	<sched:implementation>Harvest</sched:implementation>
+    	<sched:option sched:arg="-lookup-income">$INCOME_LOOKUP$</sched:option>
+    	<sched:option sched:arg="-lookup-yield">$YIELD_LOOKUP$</sched:option>
+    </sched:action>
+    <sched:action>
+    	<sched:implementation>Incrementer</sched:implementation>
+    	<sched:option sched:arg="-subject">Environment</sched:option>
+    	<sched:option sched:arg="-property">year</sched:option>
+    </sched:action>
+  </sched:sequence>
+  <sched:sequence sched:repeat="10">
+  	<sched:action>
+  		<sched:implementation>ChooseLandUseHabitRandom</sched:implementation>
+  	</sched:action>
+        <sched:action>
+  		<sched:implementation>RandomChooser</sched:implementation>
+  		<sched:option sched:arg="-subject">Environment</sched:option>
+  		<sched:option sched:arg="-property">hasClimate</sched:option>
+  		<sched:option sched:arg="-choiceSet">Climate</sched:option>
+  		<sched:option sched:arg="-probability">0.125</sched:option>
+  	</sched:action>
+  	<sched:action>
+  		<sched:implementation>RandomChooser</sched:implementation>
+  		<sched:option sched:arg="-subject">Environment</sched:option>
+  		<sched:option sched:arg="-property">hasEconomy</sched:option>
+  		<sched:option sched:arg="-choiceSet">Economy</sched:option>
+  		<sched:option sched:arg="-probability">0.125</sched:option>
+  	</sched:action>
+  	<sched:action>
+  		<sched:implementation>Harvest</sched:implementation>
+  		<sched:option sched:arg="-lookup-yield">$YIELD_LOOKUP$</sched:option>
+  		<sched:option sched:arg="-lookup-income">$INCOME_LOOKUP$</sched:option>
+  	</sched:action>
+  	<sched:action>
+        <sched:implementation>HandleBankruptcies</sched:implementation>
+  	</sched:action>
+  	<sched:action>
+  		<sched:implementation>AssignParcels</sched:implementation>
+  		<sched:option sched:arg="-landParcelPrice">10</sched:option>
+  	</sched:action>
+  	<sched:action>
+  		<sched:implementation>UpdateManagerNeighbourhoods</sched:implementation>
+  	</sched:action>
+  	<sched:action>
+  		<sched:implementation>Incrementer</sched:implementation>
+  		<sched:option sched:arg="-subject">LandManager</sched:option>
+  		<sched:option sched:arg="-property">age</sched:option>
+  	</sched:action>
+    <sched:action>
+    	<sched:implementation>Incrementer</sched:implementation>
+    	<sched:option sched:arg="-subject">Environment</sched:option>
+    	<sched:option sched:arg="-property">year</sched:option>
+    </sched:action>
+  </sched:sequence>
+</sched:schedule>

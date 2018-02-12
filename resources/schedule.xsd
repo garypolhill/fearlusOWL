@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.macaulay.ac.uk/fearlus/fearlus-owl/schedule.xsd"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sched="http://www.macaulay.ac.uk/fearlus/fearlus-owl/schedule.xsd">
+	<element name="schedule" type="sched:scheduleType"></element>
+	<element name="ontology" type="sched:commandType"></element>
+	<element name="implementation" type="NCName"></element>
+	<element name="option" type="sched:hasArgumentsType"></element>
+	<element name="sequence" type="sched:sequenceType"></element>
+	<element name="action" type="sched:commandType"></element>
+	
+
+    <attribute name="arg" type="NCName"></attribute>
+
+    <complexType name="hasArgumentsType">
+    	<simpleContent>
+    		<extension base="normalizedString">
+    			<attribute ref="sched:arg" use="required"></attribute>
+    		</extension>
+    	</simpleContent>
+    </complexType>
+             
+    <complexType name="scheduleType">
+    	<sequence>
+    		<element ref="sched:ontology"></element>
+    		<element ref="sched:sequence" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="sequenceType">
+    	<complexContent>
+    		<extension base="sched:repeatableType">
+    			<sequence>
+    				<element ref="sched:action" maxOccurs="unbounded"
+    					minOccurs="1">
+    				</element>
+    			</sequence>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+             
+    <complexType name="commandType">
+    	<sequence>
+    		<element ref="sched:implementation" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element ref="sched:option" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <attribute name="repeat" type="int"></attribute>
+
+    <complexType name="repeatableType">
+    	<attribute ref="sched:repeat" use="optional"></attribute>
+    </complexType>
